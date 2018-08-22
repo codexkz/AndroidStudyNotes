@@ -26,8 +26,8 @@ Widget:RelativeLayout、TextView
 
 - android 編譯流
 
-    ![](Compiler.png)
-    ![](Compiler2.png)
+    ![](pic/Compiler.png)
+    ![](pic/Compiler2.png)
 
 
 # 第二章-Android與MVC設計模式
@@ -43,7 +43,7 @@ Widget:RelativeLayout、TextView
 
 # 第三章-Activity的生命週期
 
-![](ActivityLifeCycle.png)
+![](pic/ActivityLifeCycle.png)
 
 - 實體按鍵點擊行為
     * 點擊設備的返回鍵 -> activity 已不需要 -> onDestroy()
@@ -125,13 +125,13 @@ startActivityForResult()
 
 
 - 完整的應用交互
-![](IntentExtra.png)
+![](pic/IntentExtra.png)
 
 - 啟動應用時，操作系統會先啟動應用中的 lanucher activity，並用一個Activity stack來管理
 
 - 通常lanucher activity會宣告在manifest的inetent-filter元素下
 
-![](LanucherActivity.png)
+![](pic/LanucherActivity.png)
 
 
 # 第六章-Android SDK版本與兼容
@@ -164,7 +164,7 @@ https://developer.android.com/about/dashboards/
 - activity本身因為不具有UI上的佈局彈性，此性能交由fragment達成。<br>
 fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的層級中。
 
-![](Fragment.png)
+![](pic/Fragment.png)
 
 - 組件階層 Activity -> FrameLayout(container) -> Fragment
 
@@ -176,7 +176,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     - Fragment(android.support.v4.app)
         - 發布時跟著打包在應用的fragment類裡
 
-![](FragmentLifeCycle.png)
+![](pic/FragmentLifeCycle.png)
 
 - Activity託管UI Fragment有兩種方式
     - 在 activity佈局中添加 fragment
@@ -192,7 +192,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
 - FragmentManager是Activity類中負責管理Fragment的類
 
-![](FragmentManager.png)
+![](pic/FragmentManager.png)
 
 -
     ```java
@@ -220,7 +220,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     - android3.0 之前由於沒有 Fragment api，因此必須借助v4包裡的 getSupportFragmentManger()來間接獲取FragmentManger，並且需繼承自FragmentActivity，才能在Activity中嵌入Fragment
     - android3.0 之後有了 Fragment api，能直接使用getFragmentManger()獲取FragmentManger，並且繼承自Activity即可嵌入Fragment
 
-![](FragmentExtendTree.png)
+![](pic/FragmentExtendTree.png)
 
 
 - Fragment 是為了封裝關鍵組件用的，所謂的關鍵組件是依照整個屏幕來說的，單屏大量Fragment不是好的作法(實踐經驗2~3即可)，若是有零碎小組件重用需求可使用定制視圖
@@ -339,7 +339,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
 # 第十一章-使用 ViewPager
 - 使用新的activity來託管明細頁的fragment，佈局將由ViewPager實體組成，可以讓用戶左右滑動切換屏幕。
-    ![](ViewPager.png)
+    ![](pic/ViewPager.png)
 
 - ViewPager 是在 support-v4庫
 
@@ -355,12 +355,12 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         - 對於不需要的Fragment會直接銷毀，transation commit 後 activity的FragmentManager中的Fragment就會被徹底消除。
         - 可在 onSaveInstanceState(Bundle) 方法中保存 fragment的 Bundle 訊息。 <br/>
         用戶可藉此保存的狀態來生成新的 fragment。
-        ![](FragmentStatePageAdapter.png)
+        ![](pic/FragmentStatePageAdapter.png)
 
     - FragmentPageAdapter :
         - 對於不需要的Fragment，會自行呼叫 detach(Fragment)方法來處理。 <br/>
         實體仍存在FragmentManager中，只是銷毀視圖。
-        ![](FragmentPageAdapter.png)
+        ![](pic/FragmentPageAdapter.png)
 
 - 若是有需要託管非Fragment的視圖，例如 ImgaeView ，那就有必要自行實現PageAdapter
 
@@ -413,7 +413,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     - 先回顧 activity 的數據傳遞<br>
     activity間數據回傳是透過startActivityForResult方法，由ActivityManager負責跟蹤activity之間的關係。<br/>
     回傳數據後ActivityManager會知道接收者為哪個activity。<br>
-    ![](FragmentPass.png)
+    ![](pic/FragmentPass.png)
     - 設置目標fragment <br>
         如同 activity數據回傳，將fragment設定為另一個fragment的目標fragment，FragmentManager會管理兩者的關係。
         ```java
@@ -435,7 +435,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 - Android 5.0 引入 Toolbar組件，在這之前用於響導或菜單的是操作欄(Actionbar)
 
 - 操作欄(左)  工具欄(右)
-    ![](Toolbar.png)
+    ![](pic/Toolbar.png)
 
 - 老專案添加 AppCompat 庫
     - 添加AppCompat依賴
@@ -765,7 +765,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
 - 本地化資源設定
 
-    ![](ResourceSetting.png)
+    ![](pic/ResourceSetting.png)
 
 - 預設資源
 
@@ -781,13 +781,13 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
     open Translations Editor
 
-    ![](TranslationEditor.png)
+    ![](pic/TranslationEditor.png)
 
 - 區域修飾符
 
     可以在資源目錄上使用語言+區域修飾符號（例如：-es-rES，r代表區域、ES代表西班牙語ISO 3166-1-alpha-2標準碼）
     大小寫不敏感，但命名約定為：語言小寫、區域大寫（但前面加個小寫r）
-    ![](LocatePolicy.png)
+    ![](pic/LocatePolicy.png)
 
     - 測試訂製區域
 
@@ -861,7 +861,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 # 第二十章-數據綁定與 MVVM
 - MVVM
 
-    ![](MVVM.png)
+    ![](pic/MVVM.png)
 
     * Model：數據層，負責處理數據的加載或者存儲。
     * View：視圖層，負責界面數據的展示，與用戶進行交互。
@@ -963,7 +963,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
         New -> Folder -> Assets Folder
 
-        ![](CreateAsserts.png)
+        ![](pic/CreateAsserts.png)
 
     2. 處理Assets
     ```java
@@ -1092,7 +1092,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     ```
 5. 創建測試
 
-     ![](CreateTest.png)
+     ![](pic/CreateTest.png)
 
 6. 實現測試類
 
@@ -1236,11 +1236,11 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
     - 應用於圖片想要控制拉伸方式的時候。
 
-        ![](9-patch.png)
+        ![](pic/9-patch.png)
 
         Android Studio 中，右鍵單擊想要轉換為 9-patch 的圖像文件選擇創建 9-patch 文件。
 
-        ![](Create9-patch.png)
+        ![](pic/Create9-patch.png)
 
 # 第二十四章-深入學習 intent 和任務
 
@@ -1290,7 +1290,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
         一般會使用 overview screan 切換或關閉各種任務。
 
-        ![](OverviewScrean.png)
+        ![](pic/OverviewScrean.png)
 
     - 啟動新任務
 
@@ -1698,7 +1698,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         sticky 服務適用於長時間運行的服務，如音樂播放器這種啟動後一直保持運行狀態，直到用戶主動停止的服務。<br>
 
 - IntentService 執行命令的的方式
-![](IntentService.png)
+![](pic/IntentService.png)
 
 
 - 服務使用
@@ -1900,12 +1900,12 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     }
     ```
 
-    ![](ProtectionLevel.png)
+    ![](pic/ProtectionLevel.png)
 
 
     - 有序 broadcast
-        ![](NormalBroadcast.png)
-        ![](OrderBroadcast.png)
+        ![](pic/NormalBroadcast.png)
+        ![](pic/OrderBroadcast.png)
 
         發送方
         ```java
@@ -2062,7 +2062,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     public boolean onTouchEvent(MotionEvent event)
     ```
     MotionEvent
-    ![](MotionEvent.png)
+    ![](pic/MotionEvent.png)
 
     實體類紀錄觸碰點
     ```java
