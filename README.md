@@ -1,7 +1,7 @@
 # 第一章-開發初體驗
 
 - activity默認佈局
-Widget:RelativeLayout、TextView
+Widget:RelativeLayout、TextView
 
 - Option+Return(Alter+Enter) 快捷鍵導入view
 
@@ -35,9 +35,9 @@ Widget:RelativeLayout、TextView
 - 在Android的世界裡 Controller通常是 Activity , Fragment ,Service
 
 - adb = (Android Debug Bridge)
-有時接上設備後找不到裝置，是因為系統找不到這個驅動，此時會需要到設備商下載
+有時接上設備後找不到裝置，是因為系統找不到這個驅動，此時會需要到設備商下載
 
-- mdpi (160dpi) < hdpi (240dpi) < xhdpi(320dpi) < xxhdpi(480dpi)
+- mdpi (160dpi) < hdpi (240dpi) < xhdpi(320dpi) < xxhdpi(480dpi)
 
 - xml 引用資源pattern => android:text="@string/xxx"
 
@@ -47,68 +47,68 @@ Widget:RelativeLayout、TextView
 
 - 實體按鍵點擊行為
     * 點擊設備的返回鍵 -> activity 已不需要 -> onDestroy()
-    * 點擊設備的主屏鍵 -> activity 可能還需要 -> onStop()
+    * 點擊設備的主屏鍵 -> activity 可能還需要 -> onStop()
     * 點擊設備的概覽屏鍵(或雙擊主屏鍵) -> onPause()
 
-- android  6.0+ 的多窗口模式-> 可能出現用戶全可視的 Pause State
+- android  6.0+ 的多窗口模式-> 可能出現用戶全可視的 Pause State
 
-- Bundle 為字符串鍵-基本型別值 的 key-value結構
+- Bundle 為字符串鍵-基本型別值 的 key-value結構
 
-- Android不會為了回收內存而銷毀可見的activity，只有onStop後的才可銷毀
+- Android不會為了回收內存而銷毀可見的activity，只有onStop後的才可銷毀
 
 
 - 旋轉設備會改變設備配置，因此會需要重建 activity 保存上一個 activity 變量的 solution
 
 - 
     ```java
-    protected void onSaveInstanceState(Bundle outState)
+    protected void onSaveInstanceState(Bundle outState)
     ```
-    * onSaveInstanceState 通常會在onStop前呼叫，但如返回鍵等，預設不需要繼續運行activity的操作則可能不會呼叫
+    * onSaveInstanceState 通常會在onStop前呼叫，但如返回鍵等，預設不需要繼續運行activity的操作則可能不會呼叫
 
 
     * override onSaveInstanceState  -> 儲存暫存狀態數據
 
-    * override onStop               -> 儲存永久數據
+    * override onStop               -> 儲存永久數據
 
 - 設備的開發者設置有 Don't keep activites 選項，可用來模擬回到主屏等，activity被回收內存的狀況。
 
-- log e(錯誤)>w(警告)>i(訊息)>d(除錯)>v(開發)
+- log e(錯誤)>w(警告)>i(訊息)>d(除錯)>v(開發)
 
 
-# 第四章-Android應用調適
+# 第四章-Android應用調適
 
-- Android Lint (Android的靜態分析器) 
+- Android Lint (Android的靜態分析器) 
 
 - R類資源出問題時的調適步驟
     1. 檢查資源文件有效性
-    2. 清理項目( Build -> Clean Project )
+    2. 清理項目( Build -> Clean Project )
     3. 使用 Gradle 同步項目
     4. 運行 Android Lint
 
-# 第五章-第二個Activity
+# 第五章-第二個Activity
 
-- 創建Activity必要三文件: Java類、XML布局、應用的Manifest，因此建議使用 IDE自帶的響導新建Activity
+- 創建Activity必要三文件: Java類、XML布局、應用的Manifest，因此建議使用 IDE自帶的響導新建Activity
 
-- Android操作系統裡有ActivityManager負責處理Activity的創建請求，startActivity(Intent)的靜態方法並非是調用Activity子類方法來建立實體。
+- Android操作系統裡有ActivityManager負責處理Activity的創建請求，startActivity(Intent)的靜態方法並非是調用Activity子類方法來建立實體。
 
 - 若要啟動應用但單純回傳結果可以調用
 startActivityForResult()
 
 - 啟動Activity前，ActivityManager會確認class是否已在manifest中宣告，否則丟出ActivityNotFoundException
 
-- intent 是component用來與操作系統通信的媒介
+- intent 是component用來與操作系統通信的媒介
 
-- 我目前已知的component：activity、service、broadcast receiver、content provider
+- 我目前已知的component：activity、service、broadcast receiver、content provider
 
 - intent 種類
     * 顯式 intent
-        - 透過指定Context與Class對象，然後呼叫intent建構子來創建intent
+        - 透過指定Context與Class對象，然後呼叫intent建構子來創建intent
         - 在同一應用中，一般使用顯式 intent
     * 隱式 intent
         -  15章介紹
 
 
-- 同一應用的兩個Activity卻必須透過應用外部的ActivityManager來溝通有點怪，但這是為了有利於不同應用之間Activity的交互。
+- 同一應用的兩個Activity卻必須透過應用外部的ActivityManager來溝通有點怪，但這是為了有利於不同應用之間Activity的交互。
 
     ```java
     傳遞方
@@ -134,24 +134,24 @@ startActivityForResult()
 ![](LanucherActivity.png)
 
 
-# 第六章-Android SDK版本與兼容
+# 第六章-Android SDK版本與兼容
 
 - 可至此查詢各版本分佈狀況
 https://developer.android.com/about/dashboards/
 
 * minSdkVersion (SDK最低版本)
-    - 操作系統會拒絕將應用安裝在系統版本低於標準的設備上
-* targetSdkVersion (SDK目標版本)
+    - 操作系統會拒絕將應用安裝在系統版本低於標準的設備上
+* targetSdkVersion (SDK目標版本)
     - 告知Android，此應用是為哪個API級別設計的
     - https://developer.android.com/reference/android/os/Build.VERSION_CODES
     - 降低SDK目標版本可以保證的是，即便在高於目標版本的設備上，應用仍可運行，且與目標版本保持一致，會忽略新版本中的變化。
 * compileSdkVersion (SDK編譯版本)
-    - 此訊息不會出現在 manifest文件內，是僅為你和編譯器間的私有信息
+    - 此訊息不會出現在 manifest文件內，是僅為你和編譯器間的私有信息
     - 決定了編譯後版本，而android studio在尋找和導入語句中的類別或方法時，會以此為基準。
 
 - 情境題
     * minSdkVersion 19 ， targetSdkVersion 25 ，此時若使用 21 的api，可能會導致低版本無法使用
-        - 若 Lint 有開啟(Analyze -> Inspect Code )，會提示Call require API level 21(Current min is 19)
+        - 若 Lint 有開啟(Analyze -> Inspect Code )，會提示Call require API level 21(Current min is 19)
         - 解決方法
             1. 提高min版本，迴避兼容性問題
             2. 在程式中以條件式來判斷Android版本，做版本兼容
@@ -159,16 +159,16 @@ https://developer.android.com/about/dashboards/
 - Android開發者文件
     - https://developer.android.com/docs/
 
-# 第七章-UI fragment 與 fragment管理器
+# 第七章-UI fragment 與 fragment管理器
 
-- activity本身因為不具有UI上的佈局彈性，此性能交由fragment達成。<br>
+- activity本身因為不具有UI上的佈局彈性，此性能交由fragment達成。<br>
 fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的層級中。
 
 ![](Fragment.png)
 
-- 組件階層 Activity -> FrameLayout(container) -> Fragment
+- 組件階層 Activity -> FrameLayout(container) -> Fragment
 
-- FrameLayout是個通用視圖容器，不單只為了裝Fragment
+- FrameLayout是個通用視圖容器，不單只為了裝Fragment
 
 - ㄒFragment分為原生版本跟資源庫版本
     - Fragment(android.app)
@@ -179,16 +179,16 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 ![](FragmentLifeCycle.png)
 
 - Activity託管UI Fragment有兩種方式
-    - 在 activity佈局中添加 fragment
-    - 在 activity程式中添加 fragment
+    - 在 activity佈局中添加 fragment
+    - 在 activity程式中添加 fragment
 
 
 - Activity 與 Fragment 比較
     - Fragment 的onCreate(Bundle) 為public方法，為了給託管的Activity呼叫
     - Fragment 同樣具有 onSaveInstanceState(Bundle)
-    - Fragment 的視圖並不在的 Fragment.onCreate(Bundle)中生成
-        - 創建和生成Fragment 的視圖是在 onCreateView( LayoutInflater,  ViewGroup, Bundle)
-        - 以上方法，會將實體化的 view 返回給託管的 Activity
+    - Fragment 的視圖並不在的 Fragment.onCreate(Bundle)中生成
+        - 創建和生成Fragment 的視圖是在 onCreateView( LayoutInflater,  ViewGroup, Bundle)
+        - 以上方法，會將實體化的 view 返回給託管的 Activity
 
 - FragmentManager是Activity類中負責管理Fragment的類
 
@@ -204,33 +204,33 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     }
     ```
     以上代碼重點
-    - FragmentTransaction 是用來增刪查改 FragmentManger的隊列  FragmentSequence
-    - FragmentTransaction 的函式會回傳自身，支援鏈式呼叫(fluent interface)
-    - 透過findFragmentById()從FragmentManger的隊列中不一定能獲取到
-    - 交易中，R.id.fragment_container(容器資源ID)的作用在於
-        1. 告知FragmentManger，Fragment視圖要呈現在Activity視圖的什麼位置
-        2. FragmentManger的隊列中Fragment的唯一識別
-        3. 基於第二點，Fragment的識別ID是綁定其容器的，因此若需要對Activity添加多個Fragment，通常就需要對每個Fragment創建具有不同ID的容器
-    - 添加 fragment 供 FragmentManger管理時，會調用隊列中的fragment的生命週期方法，若是在Activity處於運行狀態添加，則會盡快讓fragment的生命週期與其同步
+    - FragmentTransaction 是用來增刪查改 FragmentManger的隊列  FragmentSequence
+    - FragmentTransaction 的函式會回傳自身，支援鏈式呼叫(fluent interface)
+    - 透過findFragmentById()從FragmentManger的隊列中不一定能獲取到
+    - 交易中，R.id.fragment_container(容器資源ID)的作用在於
+        1. 告知FragmentManger，Fragment視圖要呈現在Activity視圖的什麼位置
+        2. FragmentManger的隊列中Fragment的唯一識別
+        3. 基於第二點，Fragment的識別ID是綁定其容器的，因此若需要對Activity添加多個Fragment，通常就需要對每個Fragment創建具有不同ID的容器
+    - 添加 fragment 供 FragmentManger管理時，會調用隊列中的fragment的生命週期方法，若是在Activity處於運行狀態添加，則會盡快讓fragment的生命週期與其同步
 
 
-- appcompat 這是google提供的基礎開發庫，但真正實現fragment功能的是support-v4庫
+- appcompat 這是google提供的基礎開發庫，但真正實現fragment功能的是support-v4庫
 
 - getSupportFragmentManger() vs getFragmentManger()
-    - android3.0 之前由於沒有 Fragment api，因此必須借助v4包裡的 getSupportFragmentManger()來間接獲取FragmentManger，並且需繼承自FragmentActivity，才能在Activity中嵌入Fragment
-    - android3.0 之後有了 Fragment api，能直接使用getFragmentManger()獲取FragmentManger，並且繼承自Activity即可嵌入Fragment
+    - android3.0 之前由於沒有 Fragment api，因此必須借助v4包裡的 getSupportFragmentManger()來間接獲取FragmentManger，並且需繼承自FragmentActivity，才能在Activity中嵌入Fragment
+    - android3.0 之後有了 Fragment api，能直接使用getFragmentManger()獲取FragmentManger，並且繼承自Activity即可嵌入Fragment
 
 ![](FragmentExtendTree.png)
 
 
 - Fragment 是為了封裝關鍵組件用的，所謂的關鍵組件是依照整個屏幕來說的，單屏大量Fragment不是好的作法(實踐經驗2~3即可)，若是有零碎小組件重用需求可使用定制視圖
 
-# 第八章-使用 RecyclerView
+# 第八章-使用 RecyclerView
 
-- RecyclerView 是 ViewGroup的子類，每一列表都是作為一個View子物件顯示。
+- RecyclerView 是 ViewGroup的子類，每一列表都是作為一個View子物件顯示。
 
-- RecyclerView 是在 support-v7庫
-- RecyclerView 的運作機制是先創建一定量的 View實體，然後在特定條件下重複使用這些實體。
+- RecyclerView 是在 support-v7庫
+- RecyclerView 的運作機制是先創建一定量的 View實體，然後在特定條件下重複使用這些實體。
 
 - 官方文件術語
     - Adapter       - 負責把 Dataset 裡面的資料，轉成 view 給 RecyclerView 顯示
@@ -242,13 +242,13 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     - Scrap(view)   - 在 Layout 過程被拿下來但是尚未完全 detached。(從原始碼來看，mAttachScrap 放在 class Recycler 底下。
 
 
-- 要想列表項的View能顯示數據，需要以下類合作
-    - RecyclerView ：回收和定位屏幕上的View
-    - (內部類)ViewHolder ：容納View視圖
-    - (內部類)Adapter ：controller物件，創建必要的ViewHolder，綁定ViewHolder和model層資料
-    - LayoutManager ：將RecyclerView擺上屏幕，並負責定義螢幕的滾動行為
+- 要想列表項的View能顯示數據，需要以下類合作
+    - RecyclerView ：回收和定位屏幕上的View
+    - (內部類)ViewHolder ：容納View視圖
+    - (內部類)Adapter ：controller物件，創建必要的ViewHolder，綁定ViewHolder和model層資料
+    - LayoutManager ：將RecyclerView擺上屏幕，並負責定義螢幕的滾動行為
 
-- 一個RecyclerView取得所需視圖物件的流程
+- 一個RecyclerView取得所需視圖物件的流程
     1. RecyclerView 呼叫 Adapter 的 onCreateViewHolder(ViewGroup,int) 方法創建 ViewHolder
     2. RecyclerView 呼叫 Adapter 的 onBindViewHolder(ViewHolder,int)，將目標位置的數據綁定到 ViewHolder的視圖上。
     ```
@@ -257,53 +257,53 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     ```
     ```
     ps2.
-    在進行暫時的資料物件存取，創建單例(Singleton)物件是個選擇
-    但創建單例物件請謹慎，否則會造成程式內容混亂，又或是尋找DI(依賴注入)工具幫忙控管單例
-    例如Android著名的DI庫-Dagger
+    在進行暫時的資料物件存取，創建單例(Singleton)物件是個選擇
+    但創建單例物件請謹慎，否則會造成程式內容混亂，又或是尋找DI(依賴注入)工具幫忙控管單例
+    例如Android著名的DI庫-Dagger
     http://square.github.io/dagger/
     ```
 
-# 第九章-使用佈局(Layout)與組件(Widget)創建用戶介面
+# 第九章-使用佈局(Layout)與組件(Widget)創建用戶介面
 
 - ConstraintLayout 下的佈局方式
     - 組件位置：添加約束
-    - 組件大小：讓組件自動(wrap_content)、手動調整、讓組件佈滿約束範圍
+    - 組件大小：讓組件自動(wrap_content)、手動調整、讓組件佈滿約束範圍
 
-- dp、sp、屏幕像素密度(PPI)
+- dp、sp、屏幕像素密度(PPI)
     - px
         * pixel。無論屏幕密度多少，一個像素點對應一個屏幕像素單位，因此不會根據屏幕密度自動縮放。
     - dp(dip)
-        * density-independent pixel。與密度無關的像素，1dp在設備屏上總是等於1/160英吋。
+        * density-independent pixel。與密度無關的像素，1dp在設備屏上總是等於1/160英吋。
     - sp
-        * scale-independent pixel。同樣與密度無關的像素，會依照用戶字體偏好設定而影響。
+        * scale-independent pixel。同樣與密度無關的像素，會依照用戶字體偏好設定而影響。
     - pt、mm、in
         * 類似於dp的縮放單位。但實際開發不建議使用，因為並非所以ㄡ設備都能正確進行縮放。
 
-- 安卓設計原則：developer.android.com/design/index.html
+- 安卓設計原則：developer.android.com/design/index.html
 
 - 邊距屬性，android studio默認使用 16dp 或 8dp
 
-# 第十章-使用 fragment argument
+# 第十章-使用 fragment argument
 
-- 從 Fragment 啟動 Activity 的方式類似從 Activity 啟動 Activity。使用 Fragment.startActivity(intent)
+- 從 Fragment 啟動 Activity 的方式類似從 Activity 啟動 Activity。使用 Fragment.startActivity(intent)
 
 - Fragment有兩種方式獲取 intent中的資料
     1. 簡單方式
         ```java
-        Foo foo = (Foo) getActivity().getIntent().getSerializableExtra(FooActivity.EXTRA_FOO_ID);
+        Foo foo = (Foo) getActivity().getIntent().getSerializableExtra(FooActivity.EXTRA_FOO_ID);
         ```
-        這不是個好方法，因為這種方式破壞了Fragment的封裝，由特定Activity託管，並定義了intent 含有名為 EXTRA_FOO_ID 的 extra。<br>
-        這表示這個Fragment無法再用於其他的Activity。<br>
-        更好的作法是讓資料存在FooFragment的某個處(如:argument bundle)，而不是保存在FooActivity的私有空間，如此一來就不用仰賴 intent 的 extra。
+        這不是個好方法，因為這種方式破壞了Fragment的封裝，由特定Activity託管，並定義了intent 含有名為 EXTRA_FOO_ID 的 extra。<br>
+        這表示這個Fragment無法再用於其他的Activity。<br>
+        更好的作法是讓資料存在FooFragment的某個處(如:argument bundle)，而不是保存在FooActivity的私有空間，如此一來就不用仰賴 intent 的 extra。
     2. fragment argument
         * 創建 Bundle 放入 argument
             ```java
-            //第二種方法，Android開發者慣用的作法是添加 newInstance 靜態方法給fragment類。
-            //附加argument bundle給fragment
-            //時機必須在fragment創建後，添加給Activity前完成
+            //第二種方法，Android開發者慣用的作法是添加 newInstance 靜態方法給fragment類。
+            //附加argument bundle給fragment
+            //時機必須在fragment創建後，添加給Activity前完成
             Bundle args = new Bundle();
             args.putSerializable(FOO_ID, fooObj);
-            FooFragment fragment = new FooFragment();
+            FooFragment fragment = new FooFragment();
             fragment.setArguments(args);
             ```
         * 取用 argument
@@ -313,20 +313,20 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         ```
         ps.
         不直接在Fragment裏創建一個實體變數的原因：
-            因為在操作系統重建fragment(設備配置變更，例如轉動)、用戶暫時離開當前應用(系統依需求回收內存)時，任何實體變數都不可靠。
-            尤其是內存不足時，操作系統強制閃退的情況更是無人能擋，Fragment argument便是應運而生。
+            因為在操作系統重建fragment(設備配置變更，例如轉動)、用戶暫時離開當前應用(系統依需求回收內存)時，任何實體變數都不可靠。
+            尤其是內存不足時，操作系統強制閃退的情況更是無人能擋，Fragment argument便是應運而生。
         ```
 
-- 同步model層與列表的資料（例如點擊列表項切換成明細頁，修改資料後返回列表）。
+- 同步model層與列表的資料（例如點擊列表項切換成明細頁，修改資料後返回列表）。
     -  在列表項Activity的 onResume 或 onActivityResult 觸發Adapter.notifyDataSetChanged()。
         ```
         ps.
-        notifyDataSetChanged()的效能問題：
-            notifyDataSetChanged()會刷新所有可見列表項。
-            這有時是不太合實際應用的，因為並非每次都需要刷新全部的列表項。
+        notifyDataSetChanged()的效能問題：
+            notifyDataSetChanged()會刷新所有可見列表項。
+            這有時是不太合實際應用的，因為並非每次都需要刷新全部的列表項。
             此時可以改採用Adapter.notifyItemChanged(int)來進行單獨刷新。
         ```
-    - 通過 fragment 返回結果的方法與 Activity 類大致雷同，需注意的是 fragment 只能夠從 activity 中接收返回結果，但自身不主動持有返回結果，因此沒有 setResult()。
+    - 通過 fragment 返回結果的方法與 Activity 類大致雷同，需注意的是 fragment 只能夠從 activity 中接收返回結果，但自身不主動持有返回結果，因此沒有 setResult()。
     <br>若要使託管的 activity 返回結果值，代碼如下。
         ```java
             public class FooFragment extends Fragment{
@@ -337,24 +337,24 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         ```
 
 
-# 第十一章-使用 ViewPager
-- 使用新的activity來託管明細頁的fragment，佈局將由ViewPager實體組成，可以讓用戶左右滑動切換屏幕。
+# 第十一章-使用 ViewPager
+- 使用新的activity來託管明細頁的fragment，佈局將由ViewPager實體組成，可以讓用戶左右滑動切換屏幕。
     ![](ViewPager.png)
 
-- ViewPager 是在 support-v4庫
+- ViewPager 是在 support-v4庫
 
 - ViewPager 類似前幾面說過的 RecyclerView 一樣需要 Adapter提供 view
   - 使用 ViewPager.setAdapter(PageAdapter);
-  - 範例使用 google提供的 FragmentStatePageAdapter 類，建構子需傳入 FragmentManager
-  - ViewPager 預設顯示第一個列表項，要改變預設列表項使用 ViewPager.setCurrentItem(int);
+  - 範例使用 google提供的 FragmentStatePageAdapter 類，建構子需傳入 FragmentManager
+  - ViewPager 預設顯示第一個列表項，要改變預設列表項使用 ViewPager.setCurrentItem(int);
 
 
 - FragmentStatePageAdapter vs FragmentPageAdapter
     - 唯一區別在於卸載不需要的Fragment時的作法
     - FragmentStatePageAdapter :
-        - 對於不需要的Fragment會直接銷毀，transation commit 後 activity的FragmentManager中的Fragment就會被徹底消除。
-        - 可在 onSaveInstanceState(Bundle) 方法中保存 fragment的 Bundle 訊息。 <br/>
-        用戶可藉此保存的狀態來生成新的 fragment。
+        - 對於不需要的Fragment會直接銷毀，transation commit 後 activity的FragmentManager中的Fragment就會被徹底消除。
+        - 可在 onSaveInstanceState(Bundle) 方法中保存 fragment的 Bundle 訊息。 <br/>
+        用戶可藉此保存的狀態來生成新的 fragment。
         ![](FragmentStatePageAdapter.png)
 
     - FragmentPageAdapter :
@@ -364,18 +364,18 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
 - 若是有需要託管非Fragment的視圖，例如 ImgaeView ，那就有必要自行實現PageAdapter
 
-- 為何在Fragment切換時不選擇使用RecyclerView？
-    - 原因在於RecyclerView的Adapter需要我們及時的提供視圖，而Fragment視圖的創建是仰賴FragmentManager，我們無法立即創建Fragment並提供其視圖。
-    - 相對的ViewPager的PageAdapter會處理更多視圖的管理工作，PageAdapter不使用onBindViewHolder(...)方法返回目標視圖，而是使用以下方法
+- 為何在Fragment切換時不選擇使用RecyclerView？
+    - 原因在於RecyclerView的Adapter需要我們及時的提供視圖，而Fragment視圖的創建是仰賴FragmentManager，我們無法立即創建Fragment並提供其視圖。
+    - 相對的ViewPager的PageAdapter會處理更多視圖的管理工作，PageAdapter不使用onBindViewHolder(...)方法返回目標視圖，而是使用以下方法
     ```java
-        //告知PageAdapter創建指定位置的Item 
+        //告知PageAdapter創建指定位置的Item 
         public Object instantiateItem (ViewGroup container, int position)
-        //告知PageAdapter銷毀指定位置的Item
+        //告知PageAdapter銷毀指定位置的Item
         public void   destoryItem     (ViewGroup container, int position, Object object)
         //判斷視圖是來自於哪個Item
         public abstract boolean  isViewFromObject (View view, Object object)
     ```
-    instantiateItem()的差別在於，不要求立即創建視圖，因此PageAdapter可以自行決定何時創建，當創建完成後ViewPager就能夠在某個時點看見視圖。
+    instantiateItem()的差別在於，不要求立即創建視圖，因此PageAdapter可以自行決定何時創建，當創建完成後ViewPager就能夠在某個時點看見視圖。
     - isViewFromObject(View view, Object object)的具體實現如下
     ```java
         @Override
@@ -396,31 +396,31 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     ```
     但不建議如此，使用布局文件可以更好的將controller層跟view層分離，代碼會更好管理，除此之外還能使用Android自帶的配適系統自動調用合適的布局文件。
 
-# 第十二章-對話框(Dialog)
+# 第十二章-對話框(Dialog)
 
-- AlertDialog 是在 support-v7庫(非系統內置的版本，但也兼容舊版本系統)
+- AlertDialog 是在 support-v7庫(非系統內置的版本，但也兼容舊版本系統)
 
 - AlertDialog 使用以下方法配置對話框
-    - AlertDialog.Builder setTitle(int titleId)
-    - AlertDialog.Builder setPositiveButton(int titleId,DialogInterface.OnClickListener listener)
-    - AlertDialog.Builder create()
+    - AlertDialog.Builder setTitle(int titleId)
+    - AlertDialog.Builder setPositiveButton(int titleId,DialogInterface.OnClickListener listener)
+    - AlertDialog.Builder create()
 
 - 若是使用 DialogFragment 可調用以下方法將 Fragment呈現到屏幕上
     - public void show (FragmentManager manager , String tag)
     - public void show (FragmentTransaction transaction , String tag)
 
 - Fragment 間數據傳遞
-    - 先回顧 activity 的數據傳遞<br>
+    - 先回顧 activity 的數據傳遞<br>
     activity間數據回傳是透過startActivityForResult方法，由ActivityManager負責跟蹤activity之間的關係。<br/>
     回傳數據後ActivityManager會知道接收者為哪個activity。<br>
     ![](FragmentPass.png)
     - 設置目標fragment <br>
-        如同 activity數據回傳，將fragment設定為另一個fragment的目標fragment，FragmentManager會管理兩者的關係。
+        如同 activity數據回傳，將fragment設定為另一個fragment的目標fragment，FragmentManager會管理兩者的關係。
         ```java
-           public void setTargetFragment(Fragment fragment , int requestCode)
+           public void setTargetFragment(Fragment fragment , int requestCode)
         ```
     - 傳遞數據給目標fragment <br>
-        使用目標fragment的 onActivityResult(int,int,intent)方法。
+        使用目標fragment的 onActivityResult(int,int,intent)方法。
         ```java
             private void sendResult (int resultCode){
                 if(getTargetFragment()==null) return;
@@ -430,22 +430,22 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
             }
         ```
 
-# 第十三章-工具欄(Toolbar)
+# 第十三章-工具欄(Toolbar)
 
-- Android 5.0 引入 Toolbar組件，在這之前用於響導或菜單的是操作欄(Actionbar)
+- Android 5.0 引入 Toolbar組件，在這之前用於響導或菜單的是操作欄(Actionbar)
 
-- 操作欄(左)  工具欄(右)
+- 操作欄(左)  工具欄(右)
     ![](Toolbar.png)
 
-- 老專案添加 AppCompat 庫
-    - 添加AppCompat依賴
-    - 使用一種AppCompat主題
-    - 確保所有Activity皆為AppCompatActivity的子類
+- 老專案添加 AppCompat 庫
+    - 添加AppCompat依賴
+    - 使用一種AppCompat主題
+    - 確保所有Activity皆為AppCompatActivity的子類
 
 - 創建工具欄菜單
     - 定義文件位於res/menu
         - showAsAction屬性用於指定菜單顯示在工具欄上，又或者是隱藏式溢出菜單( overflow menu )
-        - 不同於常見android命名空間，AppCompat使用app命名空間，這是出於兼容舊版操作欄的考量，因此不使用原生的showAsAction屬性，使用定制的app:showAsAction
+        - 不同於常見android命名空間，AppCompat使用app命名空間，這是出於兼容舊版操作欄的考量，因此不使用原生的showAsAction屬性，使用定制的app:showAsAction
     - 使用圖標 <br/>
         圖標分為系統圖標(system icon)和項目資源圖標，為了統一介面風格，有以下三種解決方案
         1. 創建定制圖標
@@ -454,9 +454,9 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
             - 系統圖標(system icon)
             - ex : @android:drawable/ic_menu_add
             - SDK目錄
-                - Mac:/Users/user/Libary/Android/sdk
+                - Mac:/Users/user/Libary/Android/sdk
                 - Windows:\Users\user\sdk
-        3. 使用Android Asset Studio創建圖標
+        3. 使用Android Asset Studio創建圖標
             - 右鍵drawable -> New -> Image Asset
     - 創建菜單
         - Activity類提供了管理菜單的回呼函數
@@ -464,7 +464,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
             public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
             public boolean onOptionsItemSelected(MenuItem item)
         ```
-        並且利用 MenuInflater.inflater(int,menu) 傳入菜單文件的資源ID
+        並且利用 MenuInflater.inflater(int,menu) 傳入菜單文件的資源ID
         - 若是使用Fragment提供的管理菜單回呼函數，需調用以下方法告知FragmentManager，其管理的Fragment需接受onCreateOptionsMenu(...)的調用指令
         ```java
             public void setHasOptionsMenu(boolean hasMenu)
@@ -472,9 +472,9 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
 - 導航用語
     - 只使用後退鍵導航又稱作臨時性導航
-    - 層級式導航( hierarchical navigation ,又或者 ancestral navigation ) 表示可在應用內逐級向上導航
+    - 層級式導航( hierarchical navigation ,又或者 ancestral navigation ) 表示可在應用內逐級向上導航
 
-# 第十四章-SQLite資料庫
+# 第十四章-SQLite資料庫
 
 - Android設備的應用都有一個沙盒目錄來保存文件。
     - /data/data/[應用的包名稱]
@@ -489,7 +489,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         public class FooDbSchema {
             //Table內部類的唯一用途就是定義描述資料表元素的String常量
             public static final class FooTable {
-                public static final String NAME = "foo";
+                public static final String NAME = "foo";
 
                 public static final class Cols {
                     public static final String UUID     = "uuid";
@@ -502,11 +502,11 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     - 創建資料庫
         - 建議創建步驟
             1. 確認目標資料庫是否存在
-            2. if 不存在 , 創建資料庫 -> 創建資料表 -> 初始化數據
+            2. if 不存在 , 創建資料庫 -> 創建資料表 -> 初始化數據
             3. if 存在 , 確認FooDbSchema使否為最新
             4. 假若是舊版本，先升級到最新版本
             5. 以上步驟可以藉由SQLiteOpenHelper類來處理
-        - 若是透過 SQLiteOpenHelper 類創建，可使用 SQLiteOpenHelper.getWritableDatabase() 取得資料庫實體 。<br />SQLiteOpenHelper會依序進行以下步驟。
+        - 若是透過 SQLiteOpenHelper 類創建，可使用 SQLiteOpenHelper.getWritableDatabase() 取得資料庫實體 。<br />SQLiteOpenHelper會依序進行以下步驟。
             ```java
                 import FooDbSchema.FooTable;
 
@@ -534,7 +534,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
                     }
                 }
             ```
-            1. 打開/data/data/[應用的包名稱]/databases/fooBase.db 資料庫 ; 若不存在則創建。
+            1. 打開/data/data/[應用的包名稱]/databases/fooBase.db 資料庫 ; 若不存在則創建。
             2. 若是首次創建會調用 onCreate(SQLiteDatabase)，並保存最新版號
             3. 若是已創建過，會檢查版號，假若 FooBaseHelper中的版號更高，就會調用onUpgrade(SQLiteDatabase,int,int)升級
 
@@ -542,7 +542,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     - 需使用模擬器或已root的設備才能看到已創建的資料庫文件
         ```
         ps.
-        Nougat(API24 or 25)模擬器無法配合Android Device Monitor文件瀏覽器使用，要看見創建的文件，需要使用舊版本模擬器。
+        Nougat(API24 or 25)模擬器無法配合Android Device Monitor文件瀏覽器使用，要看見創建的文件，需要使用舊版本模擬器。
         ```
     - Tools -> Android -> Android Device Monitor
         ```
@@ -555,7 +555,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         去除選項 Enable Instant Run to hot swap code/resource changes on deploy(default enabled)
         ```
 - 資料操作
-    - 資料庫更新與寫入的補助類是ContentValues，為鍵值存儲類，類似Bundle，但僅限於SQLite資料使用。
+    - 資料庫更新與寫入的補助類是ContentValues，為鍵值存儲類，類似Bundle，但僅限於SQLite資料使用。
     - insert
         ```java
         public void addFoo(Foo f) {
@@ -569,7 +569,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         public void updateFoo(Foo f) {
             String uuidString = f.getId().toString();
             ContentValues values = getContentValues(f);
-            //update( 資料表名稱, 寫入數據 , where子句 , where子句參數組 )
+            //update( 資料表名稱, 寫入數據 , where子句 , where子句參數組 )
             mDatabase.update(CrimeTable.NAME, values,
                     FooTable.Cols.UUID + " = ?",
                     new String[]{uuidString});
@@ -608,7 +608,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
             }
         }
 
-        //CursorWrapper 是封裝 Cursor類是為了提供定制的新方法
+        //CursorWrapper 是封裝 Cursor類是為了提供定制的新方法
         private FooCursorWrapper queryFoos(String whereClause, String[] whereArgs){
             Cursor cursor = mDatabase.query(
                     FooTable.NAME,
@@ -641,9 +641,9 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         }
     ```
     - 範例中，Model層物件內使用了應用上下文(ApplicationContext)而不使用activity作為content
-    - 原因在於生命週期，application的生命週期比activity的生命週期還長，FooLab是個單例，若是引用著activity作為content將會影響到activity的回收。
+    - 原因在於生命週期，application的生命週期比activity的生命週期還長，FooLab是個單例，若是引用著activity作為content將會影響到activity的回收。
 
-# 第十五章-隱式 intent（ImplicitIntents）
+# 第十五章-隱式 intent（ImplicitIntents）
 
 - 重要！！
     Android 8.0之後，隱式 intent受到限制，除了特定的 action外
@@ -664,7 +664,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
             android:name=".BrowserActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:scheme="http" android:host="www.bignerd.com"/>
             </intent-filter>
@@ -682,11 +682,11 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     2. 待訪問的資料位置
         - 這可能是設備以外的資源，如某網頁的URL，或某文件的URL，或某個ContentProvider
     3. 操作涉及的資料類型
-        - 指MIME形式的資料類型
+        - 指MIME形式的資料類型
     4. 可選類別
-        - 操作用於描述具體行為，類別通常用來描述何時、何地、如何使用某個activity
+        - 操作用於描述具體行為，類別通常用來描述何時、何地、如何使用某個activity
 
-- 找無匹配的應用時，系統會崩潰的問題
+- 找無匹配的應用時，系統會崩潰的問題
     - 使用PackageManager進行自檢
     ```java
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState ){
@@ -699,7 +699,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     }
     ```
 
-# 第十六章-使用 intent 拍照
+# 第十六章-使用 intent 拍照
 
 - 文件儲存
     <br>Context類提供的目錄處理方法如下
@@ -729,11 +729,11 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
             <files-path name="foo_files" path=".">
         </paths>
         ```
-        - exported : 除了你自己以及你授權的人外，其他人無法使用此Provider
+        - exported : 除了你自己以及你授權的人外，其他人無法使用此Provider
         - grantUriPermissions : 給其他應用授權，允許指向你指定的URI
-        - 子標籤 meta-data : 使FileProvider 可以找到 file.xml文件
+        - 子標籤 meta-data : 使FileProvider 可以找到 file.xml文件
 
-# 第十七章-雙版面主從用戶介面（FragmentComposition）
+# 第十七章-雙版面主從用戶介面（FragmentComposition）
 
 - 雙版面佈局，本例子需要進行以下步驟修改
     - SingleFragmentActivity(抽象類)，讓其子類傳入佈局元件的ID
@@ -757,11 +757,11 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         <item name="activity_foo" type="layout">@layout/activity_twopane</item>
     </resources>
     ```
-    如此一來就可於Activity中引用 R.layout.activity_foo 來使用目標資源的參照
+    如此一來就可於Activity中引用 R.layout.activity_foo 來使用目標資源的參照
 
 
 
-# 第十八章-應用本地化
+# 第十八章-應用本地化
 
 - 本地化資源設定
 
@@ -770,8 +770,8 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 - 預設資源
 
     防止資源不匹配（例如切換至未設定的語言）<br/>
-        在XML中使用無匹配的資源符>會變成顯示資源ＩＤ<br/>
-        在JAVA中使用無匹配的資源符>應用崩潰<br/>
+        在XML中使用無匹配的資源符>會變成顯示資源ＩＤ<br/>
+        在JAVA中使用無匹配的資源符>應用崩潰<br/>
     - 螢幕顯示密度是使用預設資源的例外
         android選擇drawable資源是透過對螢幕尺寸跟顯示密度的綜合可慮
         甚至可能選擇低於或高於設備螢幕密度的drawable，並透過縮放來適應設備
@@ -785,8 +785,8 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
 - 區域修飾符
 
-    可以在資源目錄上使用語言+區域修飾符號（例如：-es-rES，r代表區域、ES代表西班牙語ISO 3166-1-alpha-2標準碼）
-    大小寫不敏感，但命名約定為：語言小寫、區域大寫（但前面加個小寫r）
+    可以在資源目錄上使用語言+區域修飾符號（例如：-es-rES，r代表區域、ES代表西班牙語ISO 3166-1-alpha-2標準碼）
+    大小寫不敏感，但命名約定為：語言小寫、區域大寫（但前面加個小寫r）
     ![](LocatePolicy.png)
 
     - 測試訂製區域
@@ -800,11 +800,11 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         https://developer.android.com/guide/topics/resources/providing-resources#Alternative-Resources
 
     - 多重配置修飾符
-        配置多個修飾符，需注意優先序，例如 value-zh-land 是一個有效的資源目錄名，而 values-land-zh 目錄則無效
+        配置多個修飾符，需注意優先序，例如 value-zh-land 是一個有效的資源目錄名，而 values-land-zh 目錄則無效
 
 - 匹配資源
-    
-    舉例有一台 Nexus 5X、簡中、屏寬600dp以上（可用寬度731dp,可用高度311dp）的機子
+    
+    舉例有一台 Nexus 5X、簡中、屏寬600dp以上（可用寬度731dp,可用高度311dp）的機子
     * values/strings.xml
     * values-zh/strings.xml
     * values-w600dp/strings.xml
@@ -814,27 +814,27 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
         以上四版本皆適配
 
-        但若旋轉設備成束直，設備配置會改變，以下兩版本會被排除
+        但若旋轉設備成束直，設備配置會改變，以下兩版本會被排除
         * values-w600dp
         * values-zh-w600dp
 
     2. 按修飾符優先級排除目錄
 
-        排除未帶語言修飾符的版本
+        排除未帶語言修飾符的版本
         * values/strings.xml
         * values-w600dp/strings.xml
 
-        排除未帶屏寬修飾符的版本
+        排除未帶屏寬修飾符的版本
         * values-zh/strings.xml
 
         最終留下
         * values-zh-w600dp/strings.xml
 
-# 第十九章-Android 輔助功能
-        
+# 第十九章-Android 輔助功能
+        
 - TalkBack
 
-    google開發的讀屏器，分為以下兩種瀏覽方式
+    google開發的讀屏器，分為以下兩種瀏覽方式
     1. 點擊瀏覽
     2. 線性瀏覽
 
@@ -842,13 +842,13 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
     添加 android:conetentDescription 的組件屬性 增加文字描述
 
-    並且可藉由在程式內動態設置 conetentDescription ，來提升用戶體驗
+    並且可藉由在程式內動態設置 conetentDescription ，來提升用戶體驗
 
 - 實現組件可聚焦
 
-    添加 android:focusable 的組件屬性 使組件可聚焦，否則聚焦匡不會按預期動作
+    添加 android:focusable 的組件屬性 使組件可聚焦，否則聚焦匡不會按預期動作
 
-    （有些組件是預設可聚焦的 , ex: Button , CheckBox）
+    （有些組件是預設可聚焦的 , ex: Button , CheckBox）
 
 - 為組件訂標籤
 
@@ -858,7 +858,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
     https://play.google.com/store/apps/details?id=com.google.android.apps.accessibility.auditor
 
-# 第二十章-數據綁定與 MVVM
+# 第二十章-數據綁定與 MVVM
 - MVVM
 
     ![](MVVM.png)
@@ -870,7 +870,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
     1. Module的build.gradle中添加
 
-        ```
+        ```
         dataBinding {
             enabled = true
         }
@@ -881,9 +881,9 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         ```xml
         <layout xmlns:android="http://schemas.android.com/apk/res/android">
             <data>
-                <variable name="foo" type="org.sample.test.Foo" />
+                <variable name="foo" type="org.sample.test.Foo" />
             </data>
-            <!--根節點（Root Element）-->
+            <!--根節點（Root Element）-->
             <LinearLayout>
                 ...
             </LinearLayout>
@@ -896,18 +896,18 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         <layout xmlns:android="http://schemas.android.com/apk/res/android">
             <data>
                 <import type="org.sample.test.Foo" />
-                <variable name="foo" type="Foo" />
+                <variable name="foo" type="Foo" />
             </data>
-            <!--根節點（Root Element）-->
+            <!--根節點（Root Element）-->
             <LinearLayout>
                 ...
             </LinearLayout>
         </layout>
         ```
 
-        PS. java.lang.* 包已被自動導入，所以可以直接定義 String變數
+        PS. java.lang.* 包已被自動導入，所以可以直接定義 String變數
 
-    3. 定義POJO
+    3. 定義POJO
 
         ```java
         public class Foo {
@@ -934,8 +934,8 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         @Override protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             ActivityBasicBinding binding = DataBindingUtil.setContentView( this, R.layout.activity_basic);
-            Foo foo = new Foo("light");
-            binding.setUser(foo);
+            Foo foo = new Foo("light");
+            binding.setUser(foo);
         }
         ```
 
@@ -952,14 +952,14 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{foo.name}" />
+            android:text="@{foo.name}" />
         ```
 - Assets
 
     assets 是有別於 resources 的另一種資源打包方式，可以被看作隨應用打包的微型文件系統，支持任意層次的文件目錄結構。
     因為這個優點，類似遊戲這樣需要加載大量圖片和聲音資源的應用通常都會使用它。
 
-    1. 導入Assets
+    1. 導入Assets
 
         New -> Folder -> Assets Folder
 
@@ -1032,11 +1032,11 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
     5. Assets vs Resources
 
-        Assets   : For 大資源，微型文件系統，支持層的文件目錄
-        Resource : For 小資源，檢索機制較好
+        Assets   : For 大資源，微型文件系統，支持層的文件目錄
+        Resource : For 小資源，檢索機制較好
 
 
-# 第二十一章-音頻播放與單元測試
+# 第二十一章-音頻播放與單元測試
 
 1. 創建 SoundPool
     ```java
@@ -1054,10 +1054,10 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     ```
     - AudioManager.STREAM_MUSIC
 
-        Android 有各種音頻流，有各自的音量控制，這就是調低音樂不影響鬧鈴聲的原因。
+        Android 有各種音頻流，有各自的音量控制，這就是調低音樂不影響鬧鈴聲的原因。
 
         此處選則使用音樂的音頻流。
-
+
 2. 加載音頻
 
     ```java
@@ -1097,10 +1097,10 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 6. 實現測試類
 
     ```java
-    public class SoundViewModelTest{
+    public class SoundViewModelTest{
         private BeatBox mBeatBox ;
         private Sound mSound ;
-        private SoundViewModel mSubject; //這個變數命名是一種約定，代表被測試物件
+        private SoundViewModel mSubject; //這個變數命名是一種約定，代表被測試物件
 
         @Before
         public void setUp() throws Exception {
@@ -1111,14 +1111,14 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         }
 
         //簡單測試
-        @Test
+        @Test
         public void exposesSoundNameAsTitle(){
-            //assertThat 和 is 是 Hamcrest-core-1.3 庫裡的方法
+            //assertThat 和 is 是 Hamcrest-core-1.3 庫裡的方法
             assertThat(mSubject.getTitle(), is(mSound.getName()));
         }
 
-        //測試物件交互
-        @Test
+        //測試物件交互
+        @Test
         public void callBeatBoxPlayOnButtonClicked(){
             mSubject.onButtonClicked();
             verify(mBeatBox).play(mSound);
@@ -1129,14 +1129,14 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 7. 設置旋轉和物件保存
 
     必須滿足以下兩個條件，fragment 才能進入保留狀態
-    1. 已調用 setRetainInstance(true)的方法
+    1. 已調用 setRetainInstance(true)的方法
     2. 因設備配置改變（通常為設備旋轉），託管的Activity正被銷毀
 
-    fragment 只能保留很短的時間，即fragment脫離舊activity到附加給新activity的這段時間
+    fragment 只能保留很短的時間，即fragment脫離舊activity到附加給新activity的這段時間
 
     不過盡量不要保留fragment，一來程序變得複雜，二來問題排查耗時，而且此方法也不適用內存不足銷毀activity的狀況
 
-# 第二十二章-樣式(Style)與主題(Theme）
+# 第二十二章-樣式(Style)與主題(Theme）
 - 樣式（Style）：樣式是一組能應用於視圖組件的屬性，用於覆用相同的 UI 特性
     ```xml
     <style name="BeatBoxButton">
@@ -1172,7 +1172,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 - 主題（Theme）：可以把主題看作樣式的加強版，同樣是定義一套公共屬性，樣式屬性需要逐個添加，而主題屬性則會自動應用於整個應用
 
     主題在 manifest 文件中的聲明位置會影響主題的作用域
-    - 在 \<application> 中聲明，是作用於整個應用
+    - 在 \<application> 中聲明，是作用於整個應用
     - 在 \<activity>中聲明，是作用於單個 activity
 
 - AppCompat 庫自帶三大主題:
@@ -1180,7 +1180,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     2. Theme.AppCompat.Light——淺色主題
     3. Theme.AppCompat.Light.DarkActionBar——帶深色工具欄的淺色主題
 
-# 第二十三章-XML 和 drawable
+# 第二十三章-XML 和 drawable
 
 - 為何使用 XML drawable
 
@@ -1211,7 +1211,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     ```
     https://developer.android.com/guide/topics/resources/drawable-resource#StateList
 
-- layer list drawable
+- layer list drawable
     ```xml
     <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
         <item>
@@ -1242,11 +1242,11 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
         ![](Create9-patch.png)
 
-# 第二十四章-深入學習 intent 和任務
+# 第二十四章-深入學習 intent 和任務
 
 - 解析隱式 intent
 
-    定義在 activity 中的 intent 過濾器
+    定義在 activity 中的 intent 過濾器
     ```xml
     <activity android:name=".FooActivity">
         <intent-filter>
@@ -1277,7 +1277,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     });
     ```
 
-- 任務與退回堆疊(back stack)
+- 任務與退回堆疊(back stack)
 
     這裡指的任務是 acivity 堆疊。<br>
     堆疊底部的 activity 通常稱為基 activity（ base activity ）。<br>
@@ -1342,7 +1342,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         應用商店中那些宣稱自己是任務終止器的應用，實際上都是進程終止器。
 
 
-# 第二十五章-HTTP與後台服務
+# 第二十五章-HTTP與後台服務
 
 - 網絡連接基本
 
@@ -1395,9 +1395,9 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
 - 線程與主線程
     - 強行在主線程中進行網絡連接，Android 會拋出 NetworkOnMainThreadException 異常。
-    - Android 應用的運行都是從主線程開始的<br>
+    - Android 應用的運行都是從主線程開始的<br>
       然而，主線程不是線程那樣的預定執行序列。它處於一個無限循環的運行狀態，等待著用戶或系統觸發事件的發生。
-    - 主線程運行著所有更新 UI 的程式，其中包括響應 activity 的啟動、按鈕的點擊等不同 UI 相關事件的程式。<br>
+    - 主線程運行著所有更新 UI 的程式，其中包括響應 activity 的啟動、按鈕的點擊等不同 UI 相關事件的程式。<br>
     (由於響應的事件基本都與用戶界面相關，主線程有時也叫作 UI 線程。)
 
 - AsyncTask
@@ -1460,9 +1460,9 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
             }
             ```
 
-# 第二十六章-Looper、 Handler 和 HandlerThread
+# 第二十六章-Looper、 Handler 和 HandlerThread
 
-- Looper 、 Handler
+- Looper 、 Handler
     - Looper
         Android 系統中，線程有一個消息佇列(message queue)。<br>
         使用消息隊列的線程叫作消息循環(message loop)。<br>
@@ -1566,7 +1566,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
     - 主線程
         ```java
-        // 成員宣告
+        // 成員宣告
         private ThumbnailDowloader<PhotoHolder> mThumbnailDownloader;
         // 傳遞實例給下載線程
         // 這個 Handler 在主線程中建立，所以是和主線程 Looper 相關聯的
@@ -1598,7 +1598,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         });
         ```
 
-# 第二十七章-搜索
+# 第二十七章-搜索
 
 - SearchView 簡介
 
@@ -1653,7 +1653,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
 - 使用 SharedPreferences 實現輕量級資料存儲
 
-    SharedPreferences 本質上就是文件系統中的文件，可使用 SharedPreferences 類讀寫它。<br>
+    SharedPreferences 本質上就是文件系統中的文件，可使用 SharedPreferences 類讀寫它。<br>
     SharedPreferences 實例用起來更像一個鍵值對倉庫(類似於 Bundle)，但它可以通過持久化存儲保存數據。
 
     ```java
@@ -1675,7 +1675,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     }
     ```
 
-# 第二十八章-後台服務(service)
+# 第二十八章-後台服務(service)
 
 - 不同類型的服務
     - non-sticky 服務
@@ -1697,7 +1697,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         如因某種原因需終止服務，可傳入一個 null intent 給 onStartCommand(…)方法，實現服務的重啟。<br>
         sticky 服務適用於長時間運行的服務，如音樂播放器這種啟動後一直保持運行狀態，直到用戶主動停止的服務。<br>
 
-- IntentService 執行命令的的方式
+- IntentService 執行命令的的方式
 ![](IntentService.png)
 
 
@@ -1770,7 +1770,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         我們可借此測試某個 PendingIntent 是否已存在，或撤銷已發出的 PendingIntent。
 
 
-    - PendingIntent.getService(...) ，參數內容如下
+    - PendingIntent.getService(...) ，參數內容如下
         1. 用來發送 intent 的 Context，
         2. 區分 PendingIntent 來源的請求代碼，
         3. 待發送的 Intent 對象
@@ -1779,7 +1779,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
 - AlarmManager
 
-    - AlarmManager.setInexactRepeating(…) 開啟定時啟動，參數內容如下
+    - AlarmManager.setInexactRepeating(…) 開啟定時啟動，參數內容如下
         1. 描述定時器時間基準的常數
         2. 定時器啟動的時間
         3. 定時器循環的時間間隔
@@ -1792,17 +1792,17 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
         - AlarmManager.RTC
 
-            啟動基準時間就是當前時刻(例如，System.currentTimeMillis())。
+            啟動基準時間就是當前時刻(例如，System.currentTimeMillis())。
 
 
 - 通知(Notification)
 
-    Notification 需使用構造對象來創建，完整性上要包含以下幾點。
+    Notification 需使用構造對象來創建，完整性上要包含以下幾點。
     1. 在 Lollipop (5.0)之前的設備上，首次顯示通知信息時，在狀態欄上顯示的 ticker text
     2. 在狀態欄上顯示的圖標(在 Lollipop 之前的設備上，圖標在 ticker text 消失後出現);
     3. 代表通知信息自身，在通知抽屜中顯示的視圖;
     4. 待觸發的 PendingIntent，用戶點擊抽屜中的通知信息時觸發。
-    5. 在 Oreo (8.0)之後的設備，必須增加 channel（通知頻道）的設定。
+    5. 在 Oreo (8.0)之後的設備，必須增加 channel（通知頻道）的設定。
 
     ```java
     Resources resources = getResources();
@@ -1821,7 +1821,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     notificationManager.notify(0, notification);
     ```
 
-# 第二十九章-broadcast intent
+# 第二十九章-broadcast intent
 
 -  broadcast intent
 
@@ -1950,7 +1950,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         </receiver>
         ```
 
-# 第三十章-網頁瀏覽
+# 第三十章-網頁瀏覽
 
 - 使用WebView的原因
 
@@ -2003,7 +2003,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
     2. WebView 是視圖層級結構的一部分，所以旋轉後它肯定會銷毀並重建，不能用 retainFragment 來保留。
 
-    這類View，Android 文檔推薦讓 activity 自己處理設備配置變更。
+    這類View，Android 文檔推薦讓 activity 自己處理設備配置變更。
     也就是說，無需銷毀重建 activity，就能直接調整自己的視圖以適應新的屏幕尺寸，WebView 也就不必重新加載全部數據了。
 
     ```xml
@@ -2011,7 +2011,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 	android:configChanges="keyboardHidden|orientation|screenSize"/>
     ```
 
-# 第三十ㄧ章-定制視圖與觸摸事件
+# 第三十ㄧ章-定制視圖與觸摸事件
 
 - 自定義 View（定制視圖）
 
@@ -2075,7 +2075,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         }
     }
     ```
-    重寫onTouchEvent
+    重寫onTouchEvent
     ```java
     private Box mCurrentBox;
     private List<Box> mBoxen = new ArrayList<>();
@@ -2158,12 +2158,12 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     ```
 
 <!--
-第三十二章-屬性動畫
+第三十二章-屬性動畫
 
-# 第三十三章-地理位置與play服務
+# 第三十三章-地理位置與play服務
 
-# 第三十四章-使用地圖
+# 第三十四章-使用地圖
 
-# 第三十五章-material design
+# 第三十五章-material design
 -->
 
