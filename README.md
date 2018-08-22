@@ -69,7 +69,7 @@ Widget:RelativeLayout、TextView
     * override onSaveInstanceState  -> 儲存暫存狀態數據
 
     * override onStop               -> 儲存永久數據
-
+
 - 設備的開發者設置有 Don't keep activites 選項，可用來模擬回到主屏等，activity被回收內存的狀況。
 
 - log e(錯誤)>w(警告)>i(訊息)>d(除錯)>v(開發)
