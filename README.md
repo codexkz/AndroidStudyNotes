@@ -2157,13 +2157,381 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     }
     ```
 
-<!--
-第三十二章-屬性動畫
+# 第三十二章-屬性動畫
+
+- 簡單屬性動畫（創建 animator 物件）
+    ```java
+    private void startAnimation(){
+        float sunYStart = mSunView.getTop();
+        float sunYEnd = mSkyView.getHeight();
+
+        ObjectAnimator heightAnimator = ObjectAnimator
+                    .ofFloat(mSunView, "y", sunYStart, sunYEnd)
+                    .setDuration(3000);
+        heightAnimator.start();
+    }
+    ```
+
+- 視圖屬性轉換（transformation properties）
+
+    視圖本身都有 local layout rect(視圖實體化後賦予的位址、大小尺寸參數)。
+    透過改變這些屬性，便能夠移動視圖，稱為屬性轉換。
+
+- 使用 interpolator（插值器）
+
+    Interpolator是已經定義好的動作效果，直接套用到 animator 上即能夠帶入移動特效。
+    ```java
+        heightAnimator.setInterpolator(new AccelerateInterpolator());
+    }
+    ```
+
+    - AccelerateDecelerateInterpolator
+
+        在動畫開始與介紹的地方速率改變比較慢，在中間的時候加速
+    - AccelerateInterpolator
+
+        在動畫開始的地方速率改變比較慢，然後開始加速
+    - AnticipateInterpolator
+
+        開始的時候向後然後向前甩
+    - AnticipateOvershootInterpolator
+
+        開始的時候向後然後向前甩一定值後返回最後的值
+    - BounceInterpolator
+
+        動畫結束的時候彈起
+    - CycleInterpolator
+
+        動畫循環播放特定的次數，速率改變沿著正弦曲線
+    - DecelerateInterpolator
+
+        在動畫開始的地方快然後慢
+    - LinearInterpolator
+
+        以常量速率改變
+    - OvershootInterpolator
+
+        向前甩一定值後再回到原來位置
+
+- ArgbEvaluator (色彩漸變器）
+
+    ArgbEvaluator是 TypeEvaluator的子類，能精確的幫助animator計算色彩開始至結束的遞增值。
+    ```java
+        sunsetSkyAnimator.ofInt(mSkyView,"backgroundcolor",mBlueSkyColor,mSunsetSkyColor);
+        sunsetSkyAnimator.setEvaluator(new ArgbEvaluator());
+    }
+    ```
+
+- 播放多個動畫
+
+    可以使用AnimatorListener，來監聽每個動作結束來串接，也能夠使用AnimatorSet來指定動作組。
+    ```java
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet
+                .play(heightAnimator)
+                .with(sunsetSkyAnimator)
+                .before(nightSkyAnimator);
+        animatorSet.start();
+    }
+    ```
+
+- 關於傳統的動畫工具
+
+    Android 有 android.view.animation 和 android.animation 兩個不同的工具包。<br>
+    以上兩者皆是傳統的工具包，簡單暸解即可。<br>
+    本章節使用的動畫工具類皆為 animaTOR ，如果遇到 animaTION 就能斷定來自傳統工具包，忽略它。
+
+- 轉場
+
+    Android 4.4 引入了新視圖的轉場框架。
+    例如可以實現從 activity小視圖動態彈出另一個放大版視圖。
+    工作原理大致如下：
+    1. 定義場景，代表各時點的視圖狀態（定義在xml佈局文件）
+    2. 按照一定邏輯切換場景（定義在xml的動畫文件）
 
 # 第三十三章-地理位置與play服務
 
+- 地理位置和定位類庫
+
+    首先要先將 Google Play Service 的非標準庫整合進應用
+    手機的定位方式大致有以下幾種
+    1. ＧＰＳ定位
+    2. ＷiFi或手機基地台的地理資訊
+    以上 api 在 android.location 庫能夠找到，但以往需要嚴謹的調用才能夠適配各種狀況。
+
+    - Google play Service
+
+        Google 在裡頭提供一種叫 Fused Location Provider 的全新定位服務<br>
+        但要使用這些API會連帶有些條件
+        1. 設備需要安裝Play 商店並保持更新
+        2. 應用需要在 Play 商店發布
+
+- Play服務定位與模擬器
+
+    打開 SDK管理器，確認 Google APIs System Images 已安裝並更新至最新<br>
+    模擬器選用時，確認目標操作系統版本（ with Google APIs ）
+
+    - 模擬定位數據
+        書本附錄了MockWalker應用，會讓模擬裝置在雅特蘭大晃悠<br>
+        源碼實現仰賴 RxJava 跟 sticky 前台服務的技術
+
+- 配置Google Play服務
+
+    - 引入 'com.google.android.gms:play-services-location:x.x.x'庫
+    - 檢測 Play 服務
+
+        Activity
+        ```java
+        @Override
+        protected void onResume() {
+            super.onResume();
+
+            GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+            int errorCode = apiAvailability.isGooglePlayServicesAvailable(this);
+
+            if (errorCode != ConnectionResult.SUCCESS) {
+                Dialog errorDialog = apiAvailability.getErrorDialog(this,
+                        errorCode,
+                        REQUEST_ERROR,
+                        new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialogInterface) {
+                                // Leave if services are unavailable.
+                                finish();
+                            }
+                        });
+
+                errorDialog.show();
+            }
+        }
+        ```
+- 地理位置權限
+
+    ACCESS_FINE_LOCATION 和 ACCESS_COARSE_LOCATION屬於危險型權限<br>
+    除了manifest定義外，還需要在運行時請求
+    ```xml
+    <!--For GPS 精準定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--For 手機基地台或WiFi 定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    ```
+- 使用Google Play服務
+    - 創建 Google API Client
+    ```java
+    private GoogleApiClient mClient;
+
+     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
+        mClient = new GoogleApiClient.Builder(getActivity())
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                    @Override
+                    public void onConnected(@Nullable Bundle bundle) {
+                        getActivity().invalidateOptionsMenu();
+                    }
+
+                    @Override
+                    public void onConnectionSuspended(int i) {
+
+                    }
+                })
+                .build();
+    }
+
+    //Client連結
+     @Override
+    public void onStart() {
+        super.onStart();
+
+        getActivity().invalidateOptionsMenu();
+        mClient.connect();
+    }
+
+    //Client斷開
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        mClient.disconnect();
+    }
+    ```
+
+- 獲取定位資訊
+    - 創建定位請求
+        ```java
+        LocationRequest request = LocationRequest.create();
+            request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            request.setNumUpdates(1);
+            request.setInterval(0);
+        ```
+        1. 時間間隔 (interval):地理位置更新頻繁度
+        2. 更新次數 (number of updates):地理位置應該進行的更新次數
+        3. 優先級 (priority):省電優先還是精確優先
+        4. 失效 (expiration):定位請求是否失效
+        5. 最小位移（smallest displacement）:觸發位置更新，設備移動的最小距離（m）
+
+    - 發送定位請求
+        ```java
+        LocationServices.FusedLocationApi
+                .requestLocationUpdates(mClient, request, new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        Log.i(TAG, "Got a fix: " + location);
+                        new SearchTask().execute(location);
+                    }
+                });
+        ```
+
+- 獲取運行時權限
+    - 有三步驟
+        1. 確認是否擁有權限
+        2. 獲取使用權限
+        3. 監聽權限請求的回應
+        4. 確認是否要給用戶合理解釋
+
+    添加權限常數
+    ```java
+    private static final String[] LOCATION_PERMISSIONS = new String[]{
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+    };
+    ```
+    另外，權限安全類型，例如：dangerous，是賦予給權限組，而非單個權限。<br>
+    因為以上兩者皆為Location 組，因此請求時只需要對其中一種權限操作即可。
+
+    ![](pic/PermissionGroup.png)
+
+
+    檢查權限
+    ```java
+    private boolean hasLocationPermission() {
+        int result = ContextCompat
+                .checkSelfPermission(getActivity(), LOCATION_PERMISSIONS[0]);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+    ```
+
+    要求授權
+    ```java
+    private static final int REQUEST_LOCATION_PERMISSIONS = 0;
+
+    //請求權限
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_locate:
+                if (hasLocationPermission()) {
+                        doSomething();
+                } else {
+                    requestPermissions(LOCATION_PERMISSIONSREQUEST_LOCATION_PERMISSIONS);
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    //權限請求結果
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_LOCATION_PERMISSIONS:
+                if (hasLocationPermission()) {
+                    findImage();
+                }
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+    ```
 # 第三十四章-使用地圖
 
-# 第三十五章-material design
--->
+- 導入 Play 地圖服務庫
+    - 引入 'com.google.android.gms:play-services-maps:x.x.x'庫
+
+- 獲取地圖的API key
+
+    並定義在manifest內
+    ```xml
+    <!-- Google Map API key -->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+                   android:value="@string/google_maps_key" />
+    ```
+
+- 創建並使用地圖
+
+    地圖存在於MapView中，如同其他視圖使用方式，你需要如下轉發所有生命週期
+    ```java
+     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mMapView.onCreate(savedInstanceState);
+    }
+    ```
+
+    但這麼做不推薦，可以使用 SupportMapFragment
+    SupportMapFragment 會創建 MapView ，MapView 會託管真正做事的 GoogleMap
+
+    - 法ㄧ：繼承 SupportMapFragment
+    ```java
+    public class LocatrFragment extends SupportMapFragment {
+
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    mMap = googleMap;
+                }
+            });
+        }
+
+    }
+    ```
+
+    - 法二：實作 OnMapReadyCallback ，然後動態創建 SupportMapFragment
+    ```java
+    public class CheckInDetail extends FragmentActivity implements OnMapReadyCallback {
+
+        @Override
+        protected void onCreate(@Nullable Bundle savedInstanceState) {
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        }
+
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            map = googleMap;
+        }
+
+    }
+    ```
+
+- 在地圖上繪製
+
+    在地圖上繪製跟在普通視圖上繪製是兩個概念<br>
+    在地圖上繪製是在某個地理位置增加物件<br>
+    在普通視圖上繪製是繪製像素到屏幕上<br>
+    前者相對簡單
+
+    在地圖上繪製的物件本身，其實也是由GoogleMap創建，你只是提供要描繪的訊息<br>
+    這種描述性物件，稱作（Option Objects）
+
+    ```java
+    BitmapDescriptor itemBitmap = BitmapDescriptorFactory.fromBitmap(mMapImage);
+    MarkerOptions itemMarker = new MarkerOptions()
+            .position(itemPoint)
+            .icon(itemBitmap);
+    MarkerOptions myMarker = new MarkerOptions()
+            .position(myPoint);
+    mMap.clear();
+    mMap.addMarker(itemMarker);
+    mMap.addMarker(myMarker);
+    ```
+
+<!--# 第三十五章-material design -->
 
