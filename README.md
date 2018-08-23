@@ -2472,7 +2472,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     }
     ```
 
-    但這麼做不推薦，可以使用 SupportMapFragment
+    但這麼做不推薦，可以使用 SupportMapFragment<br>
     SupportMapFragment 會創建 MapView ，MapView 會託管真正做事的 GoogleMap
 
     - 法ㄧ：繼承 SupportMapFragment
