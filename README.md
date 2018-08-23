@@ -2159,7 +2159,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
 # 第三十二章-屬性動畫
 
-- 簡單屬性動畫（創建 animator 物件）
+- 簡單屬性動畫（創建 animator 物件）
     ```java
     private void startAnimation(){
         float sunYStart = mSunView.getTop();
@@ -2179,7 +2179,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
 - 使用 interpolator（插值器）
 
-    Interpolator是已經定義好的動作效果，直接套用到 animator 上即能夠帶入移動特效。
+    Interpolator是已經定義好的動作效果，直接套用到 animator 上即能夠帶入移動特效。
     ```java
         heightAnimator.setInterpolator(new AccelerateInterpolator());
     }
@@ -2213,9 +2213,9 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
         向前甩一定值後再回到原來位置
 
-- ArgbEvaluator (色彩漸變器）
+- ArgbEvaluator (色彩漸變器）
 
-    ArgbEvaluator是 TypeEvaluator的子類，能精確的幫助animator計算色彩開始至結束的遞增值。
+    ArgbEvaluator是 TypeEvaluator的子類，能精確的幫助animator計算色彩開始至結束的遞增值。
     ```java
         sunsetSkyAnimator.ofInt(mSkyView,"backgroundcolor",mBlueSkyColor,mSunsetSkyColor);
         sunsetSkyAnimator.setEvaluator(new ArgbEvaluator());
@@ -2226,7 +2226,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
     可以使用AnimatorListener，來監聽每個動作結束來串接，也能夠使用AnimatorSet來指定動作組。
     ```java
-        AnimatorSet animatorSet = new AnimatorSet();
+        AnimatorSet animatorSet = new AnimatorSet();
         animatorSet
                 .play(heightAnimator)
                 .with(sunsetSkyAnimator)
@@ -2237,13 +2237,13 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
 - 關於傳統的動畫工具
 
-    Android 有 android.view.animation 和 android.animation 兩個不同的工具包。<br>
-    以上兩者皆是傳統的工具包，簡單暸解即可。<br>
+    Android 有 android.view.animation 和 android.animation 兩個不同的工具包。<br>
+    以上兩者皆是傳統的工具包，簡單暸解即可。<br>
     本章節使用的動畫工具類皆為 animaTOR ，如果遇到 animaTION 就能斷定來自傳統工具包，忽略它。
 
 - 轉場
 
-    Android 4.4 引入了新視圖的轉場框架。
+    Android 4.4 引入了新視圖的轉場框架。
     例如可以實現從 activity小視圖動態彈出另一個放大版視圖。
     工作原理大致如下：
     1. 定義場景，代表各時點的視圖狀態（定義在xml佈局文件）
@@ -2257,23 +2257,23 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     手機的定位方式大致有以下幾種
     1. ＧＰＳ定位
     2. ＷiFi或手機基地台的地理資訊
-    以上 api 在 android.location 庫能夠找到，但以往需要嚴謹的調用才能夠適配各種狀況。
+    以上 api 在 android.location 庫能夠找到，但以往需要嚴謹的調用才能夠適配各種狀況。
 
-    - Google play Service
+    - Google play Service
 
-        Google 在裡頭提供一種叫 Fused Location Provider 的全新定位服務<br>
+        Google 在裡頭提供一種叫 Fused Location Provider 的全新定位服務<br>
         但要使用這些API會連帶有些條件
-        1. 設備需要安裝Play 商店並保持更新
+        1. 設備需要安裝Play 商店並保持更新
         2. 應用需要在 Play 商店發布
 
-- Play服務定位與模擬器
+- Play服務定位與模擬器
 
     打開 SDK管理器，確認 Google APIs System Images 已安裝並更新至最新<br>
     模擬器選用時，確認目標操作系統版本（ with Google APIs ）
 
     - 模擬定位數據
         書本附錄了MockWalker應用，會讓模擬裝置在雅特蘭大晃悠<br>
-        源碼實現仰賴 RxJava 跟 sticky 前台服務的技術
+        源碼實現仰賴 RxJava 跟 sticky 前台服務的技術
 
 - 配置Google Play服務
 
@@ -2310,9 +2310,9 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     ACCESS_FINE_LOCATION 和 ACCESS_COARSE_LOCATION屬於危險型權限<br>
     除了manifest定義外，還需要在運行時請求
     ```xml
-    <!--For GPS 精準定位-->
+    <!--For GPS 精準定位-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!--For 手機基地台或WiFi 定位-->
+    <!--For 手機基地台或WiFi 定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     ```
 - 使用Google Play服務
@@ -2341,7 +2341,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
                 .build();
     }
 
-    //Client連結
+    //Client連結
      @Override
     public void onStart() {
         super.onStart();
@@ -2350,7 +2350,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         mClient.connect();
     }
 
-    //Client斷開
+    //Client斷開
     @Override
     public void onStop() {
         super.onStop();
@@ -2367,11 +2367,11 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
             request.setNumUpdates(1);
             request.setInterval(0);
         ```
-        1. 時間間隔 (interval):地理位置更新頻繁度
+        1. 時間間隔 (interval):地理位置更新頻繁度
         2. 更新次數 (number of updates):地理位置應該進行的更新次數
         3. 優先級 (priority):省電優先還是精確優先
-        4. 失效 (expiration):定位請求是否失效
-        5. 最小位移（smallest displacement）:觸發位置更新，設備移動的最小距離（m）
+        4. 失效 (expiration):定位請求是否失效
+        5. 最小位移（smallest displacement）:觸發位置更新，設備移動的最小距離（m）
 
     - 發送定位請求
         ```java
@@ -2385,7 +2385,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
                 });
         ```
 
-- 獲取運行時權限
+- 獲取運行時權限
     - 有三步驟
         1. 確認是否擁有權限
         2. 獲取使用權限
@@ -2399,10 +2399,10 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
             Manifest.permission.ACCESS_COARSE_LOCATION,
     };
     ```
-    另外，權限安全類型，例如：dangerous，是賦予給權限組，而非單個權限。<br>
+    另外，權限安全類型，例如：dangerous，是賦予給權限組，而非單個權限。<br>
     因為以上兩者皆為Location 組，因此請求時只需要對其中一種權限操作即可。
 
-    ![](pic/PermissionGroup.png)
+    ![](pic/PermissionGroup.png)
 
 
     檢查權限
@@ -2452,7 +2452,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 - 導入 Play 地圖服務庫
     - 引入 'com.google.android.gms:play-services-maps:x.x.x'庫
 
-- 獲取地圖的API key
+- 獲取地圖的API key
 
     並定義在manifest內
     ```xml
@@ -2472,8 +2472,8 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     }
     ```
 
-    但這麼做不推薦，可以使用 SupportMapFragment
-    SupportMapFragment 會創建 MapView ，MapView 會託管真正做事的 GoogleMap
+    但這麼做不推薦，可以使用 SupportMapFragment
+    SupportMapFragment 會創建 MapView ，MapView 會託管真正做事的 GoogleMap
 
     - 法ㄧ：繼承 SupportMapFragment
     ```java
@@ -2493,7 +2493,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
     }
     ```
 
-    - 法二：實作 OnMapReadyCallback ，然後動態創建 SupportMapFragment
+    - 法二：實作 OnMapReadyCallback ，然後動態創建 SupportMapFragment
     ```java
     public class CheckInDetail extends FragmentActivity implements OnMapReadyCallback {
 
@@ -2501,7 +2501,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
         protected void onCreate(@Nullable Bundle savedInstanceState) {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        }
+        }
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
@@ -2513,13 +2513,13 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
 - 在地圖上繪製
 
-    在地圖上繪製跟在普通視圖上繪製是兩個概念<br>
-    在地圖上繪製是在某個地理位置增加物件<br>
-    在普通視圖上繪製是繪製像素到屏幕上<br>
+    在地圖上繪製跟在普通視圖上繪製是兩個概念<br>
+    在地圖上繪製是在某個地理位置增加物件<br>
+    在普通視圖上繪製是繪製像素到屏幕上<br>
     前者相對簡單
 
     在地圖上繪製的物件本身，其實也是由GoogleMap創建，你只是提供要描繪的訊息<br>
-    這種描述性物件，稱作（Option Objects）
+    這種描述性物件，稱作（Option Objects）
 
     ```java
     BitmapDescriptor itemBitmap = BitmapDescriptorFactory.fromBitmap(mMapImage);
