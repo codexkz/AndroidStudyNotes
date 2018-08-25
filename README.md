@@ -184,7 +184,7 @@ fragment 本身沒有在屏幕上顯現視圖的能力，是依附在activity的
 
 
 - Activity 與 Fragment 比較
-    - Fragment 的onCreate(Bundle) 為public方法，為了給託管的Activity呼叫
+    - Fragment 的onCreate(Bundle) 為public方法，為了給託管的Activity呼叫
     - Fragment 同樣具有 onSaveInstanceState(Bundle)
     - Fragment 的視圖並不在的 Fragment.onCreate(Bundle)中生成
         - 創建和生成Fragment 的視圖是在 onCreateView( LayoutInflater,  ViewGroup, Bundle)
